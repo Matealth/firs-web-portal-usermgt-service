@@ -1,0 +1,59 @@
+Server:
+  port: 8081
+
+Spring:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: secret
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: true
+
+  rabbitmq:
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 5000
+          max-interval: 10000
+          max-attempts: 5
+          multiplier: 2
+
+rabbitmq:
+  exchange:
+    name: firs-exchange
+
+otp:
+  rabbitmq:
+    routing:
+      key: firs.otp.#
+    queue:
+      name: firs-otp-queue
+
+app:
+  jwt:
+    secret: firsDevTestJwtSecret
+    expiration: 10000
+    refresh-token:
+      expiration: 50000
+
+  name: firs-risk-management-web-portal
+  no-reply-email: matealth@gmail.com
+
+jasypt:
+  encryptor:
+    password: devTest
+
+#SendGrid Properties
+sendgrid:
+  demo-email-template-id: d-034361a1b85d4d3293ff43fc5b070630
+  api-key: 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
