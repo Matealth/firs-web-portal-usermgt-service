@@ -32,10 +32,8 @@ public class User {
     private String firstname;
     private String lastname;
     private String email;
-    private String branchId;
     private String password;
     private Date lastLogin;
-    private String emailOtp;
     private Boolean enabled;
     private Boolean active;
     private String address;
@@ -46,6 +44,5 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
     private Date expiry;
-
 }
 

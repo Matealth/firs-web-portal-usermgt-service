@@ -66,8 +66,14 @@ public class UserService {
     public ApiResponse createUser(CreateUserRequest createUserRequest)
     {
         ApiResponse apiResponse = null;
+        Optional<User> userCheck = userRepo.findByUsername(createUserRequest.getUsername());
+
+        if (userCheck.isPresent()) {
+            return ApiUtil.prepareResponse("user with username : "  + createUserRequest.getUsername() + "  already exists", false);
+        }
+
         try {
-            User user = mapRegisterRequestToUser(createUserRequest);
+           User user = mapRegisterRequestToUser(createUserRequest);
             user.setEnabled(false);
             user = userRepo.save(user);
             addRoleToUser(user, createUserRequest.getRoles());
@@ -142,12 +148,14 @@ public class UserService {
                 .firstname(createUserRequest.getFirstName())
                 .lastname(createUserRequest.getLastName())
                 .phone(createUserRequest.getPhone())
-                .email(createUserRequest.getEmail())
+                .email(createUserRequest.getUsername())
+                .username(createUserRequest.getUsername())
                 .enabled(true)
+                .address(createUserRequest.getAddress())
                 // default password. Must be changed by user on first login.
                 .password(passwordEncoder.encode("Quality@123"))
                 .roles(new HashSet<>())
-                .active(false)
+                .active(true)
                 .build();
         return user;
     }

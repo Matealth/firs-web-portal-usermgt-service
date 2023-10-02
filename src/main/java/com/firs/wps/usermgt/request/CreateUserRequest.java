@@ -36,7 +36,7 @@ public class CreateUserRequest {
 
     @JsonProperty("username")
     @NotBlank(message = "Username address is required")
-    private String email;
+    private String username;
 
     @JsonProperty("address")
     @NotBlank(message = "Address is required")
